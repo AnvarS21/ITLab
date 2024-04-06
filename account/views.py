@@ -7,6 +7,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from account.models import SocialLinks
 from account.permissions import IsOwner
+from account.send_mail import send_confirmation_email
 from account.serializers import UserListSerializer, UserRegisterSerializer, UserUpdateSerializer, SocialLinkSerializer, \
     UserDetailSerializer
 
@@ -40,11 +41,30 @@ class UserModelViewSet(mixins.ListModelMixin, mixins.UpdateModelMixin, mixins.Re
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({'message': 'Successfully registered!', 'data': serializer.data},
-                        status=201)
+        user = serializer.save()
+        if user:
+            try:
+                send_confirmation_email(user.email, user.activation_code)
+            except:
+                return Response({'msg': 'Registered, but troubles with email!',
+                                 'data': serializer.data}, status=201)
+            return Response({'message': 'Registered and sent mail', 'data': serializer.data},
+                            status=201)
 
-    from rest_framework import status
+    @action(['GET'], detail=False, url_path='activate/(?P<uuid>[0-9A-Fa-f-]+)')
+    def activate(self, request, uuid):
+        try:
+            user = User.objects.get(activation_code=uuid)
+        except User.DoesNotExist:
+            return Response({'msg': 'Invalid link or link expired!'}, status=400)
+
+        user.is_active = True
+        user.activation_code = ''
+        user.save()
+        return Response({'msg': 'Successfully activated!'}, status=200)
+
+
+
 
     @action(['POST'], detail=False)
     def links(self, request):

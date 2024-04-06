@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -24,10 +26,32 @@ class CustomUser(AbstractUser):
     position = models.CharField(max_length=20, choices=POSITION_CHOICES, verbose_name="Должность")
     image = models.ImageField(upload_to='avatars/', verbose_name="Аватар", blank=True, null=True)
     about_me = models.TextField(blank=True, null=True, verbose_name="О себе")
+    activation_code = models.CharField(max_length=255, blank=True, null=True, verbose_name="Активационный код")
+    is_active = models.BooleanField(
+        _("active"),
+        default=False,
+        help_text=_(
+            "Designates whether this user should be treated as active. "
+            "Unselect this instead of deleting accounts."
+        ),
+    )
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
+
+    def create_activation_code(self):
+        code = str(uuid.uuid4())
+        return code
+
+    def save(self, *args, **kwargs):
+        self.activation_code = self.create_activation_code()
+        if self.is_superuser:
+            self.is_active = True
+        super().save(*args, **kwargs)
+
+
+
 
     def __str__(self):
         return self.email
