@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'drf_yasg',
     'phonenumber_field',
+    'django_rest_passwordreset',
     #my_apps
     'account',
     'form',

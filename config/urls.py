@@ -20,6 +20,9 @@ urlpatterns = [
     path('form/', include('form.urls')),
     path('project/', include('project.urls')),
 
+    #password reset ulr
+    path('api/password_reset/', include('django_rest_passwordreset.urls')),
+
     #JWT-Token_urls
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
