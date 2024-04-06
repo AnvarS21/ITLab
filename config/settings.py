@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #installed_apps
+    "corsheaders",
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_yasg',
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -198,9 +200,6 @@ SIMPLE_JWT = {
 }
 
 
-
-
-
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Token': {
@@ -212,3 +211,29 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,
 }
 
+
+JAZZMIN_SETTINGS = {
+    "site_title": "ITLab",
+    "site_header": "ITLab",
+    # "site_logo": "/static/admin/img/logo.png",
+    "welcome_sign": "Добро пожаловать в административную панель Django",
+    "show_ui_builder": True,
+    "changeform_format": "horizontal_tabs",
+    "related_modal_active": True,
+    "show_sidebar": True,
+    "navigation_expanded": False,
+    "searchbar_placeholder": "Поиск...",
+    "searchbar_model_name": "Поиск по моделям...",
+    "searchbar_model_field_name": "Поиск по полям...",
+}
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:9000",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:8000"
+]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_PRIVATE_NETWORK = True
