@@ -11,3 +11,5 @@ django-rest-passwordreset
 django-filter
 django-phonenumber-field
 django-jazzmin
+gunicorn
+phonenumbers
