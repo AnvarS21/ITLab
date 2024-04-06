@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 
-from account.models import CustomUser
 from .models import Project, ProjectSImage, Developer
 
 
 User = get_user_model()
+
 
 class ProjectSImageInline(admin.TabularInline):
     model = ProjectSImage

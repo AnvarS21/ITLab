@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, SocialLinks
 
 
-class SocialLinksInline(admin.StackedInline):  # или TabularInline, в зависимости от предпочтений по отображению
+class SocialLinksInline(admin.StackedInline):
     model = SocialLinks
     can_delete = False
     verbose_name_plural = 'Социальные ссылки'
@@ -16,7 +16,7 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('email', 'username', 'position')
     ordering = ('email',)
     filter_horizontal = ()
-    inlines = [SocialLinksInline]  # Добавляем инлайн для социальных ссылок
+    inlines = [SocialLinksInline]
 
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),
