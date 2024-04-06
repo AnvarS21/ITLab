@@ -41,6 +41,14 @@ class UserDetailSerializer(serializers.ModelSerializer):
         fields = ('full_name', 'image', 'about_me', 'position', 'social')
 
 
+class UserDeveloperList(serializers.ModelSerializer):
+    social = SocialUserDetailSerializer(read_only=True)
+    class Meta:
+        model = User
+        fields = ('full_name', 'image', 'position', 'social')
+
+
+
 class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=128, min_length=8, write_only=True)
     password2 = serializers.CharField(max_length=128, min_length=8, write_only=True)

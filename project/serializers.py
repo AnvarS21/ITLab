@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from account.serializers import UserListSerializer, UserDetailSerializer
+from account.serializers import UserListSerializer, UserDetailSerializer, UserDeveloperList
 from project.models import Project, ProjectSImage, Developer
 
 
@@ -11,7 +11,7 @@ class ProjectListSerializer(serializers.ModelSerializer):
 
 
 class DeveloperListSerializer(serializers.ModelSerializer):
-    developer = UserListSerializer(read_only=True)
+    developer = UserDeveloperList(read_only=True)
 
     class Meta:
         model = Developer
