@@ -4,8 +4,8 @@ from .models import Review, Student, Client
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'created_at')
-    search_fields = ('full_name',)
+    list_display = ('user', 'created_at')
+    search_fields = ('user',)
     list_filter = ('created_at',)
 
 

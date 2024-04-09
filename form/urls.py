@@ -7,7 +7,7 @@ router = SimpleRouter()
 
 router.register(r'client', ClientCreateView)
 router.register(r'student', StudentCreateView)
-router.register(r'review', ReviewCreateListView)
+router.register(r'review', ReviewCreateListView, basename='review')
 
 
 urlpatterns = [

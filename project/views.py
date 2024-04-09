@@ -26,3 +26,5 @@ class DeveloperListDetailView(mixins.RetrieveModelMixin, mixins.ListModelMixin, 
             return DeveloperListSerializer
         return DeveloperDetailSerializer
 
+
+

@@ -24,7 +24,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_("email address"), unique=True)
     full_name = models.CharField(max_length=128, verbose_name="ФИО",  blank=True, null=True)
     position = models.CharField(max_length=20, choices=POSITION_CHOICES, verbose_name="Должность")
-    image = models.ImageField(upload_to='avatars/', verbose_name="Аватар", blank=True, null=True)
+    image = models.ImageField(upload_to='avatars/', verbose_name="Аватар", blank=True, null=True, default='avatars/default_avatar.jpg')
     about_me = models.TextField(blank=True, null=True, verbose_name="О себе")
     activation_code = models.CharField(max_length=255, blank=True, null=True, verbose_name="Активационный код")
     is_active = models.BooleanField(

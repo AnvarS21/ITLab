@@ -16,6 +16,7 @@ class Gallery(models.Model):
 
 class News(models.Model):
     title = models.CharField(max_length=255, verbose_name="Заголовок")
+    short_body = models.TextField(max_length=500, verbose_name="краткое описание")
     body = models.TextField()
     speaker = models.CharField(max_length=255, verbose_name="Спикер")
     preview = models.ForeignKey(Gallery, verbose_name="Превью", related_name='news', on_delete=models.SET_NULL, blank=True, null=True)

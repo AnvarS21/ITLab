@@ -14,13 +14,13 @@ class NewsImageInline(admin.TabularInline):
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'speaker', 'created_at', 'updated_at')
-    search_fields = ('title', 'speaker')
+    list_display = ('title', 'speaker', 'created_at', 'updated_at', 'id')
+    search_fields = ('title', 'speaker', 'short_body')
     list_filter = ('created_at', 'updated_at')
     readonly_fields = ('created_at', 'updated_at')
     fieldsets = (
         (None, {
-            'fields': ('title', 'body', 'speaker', 'preview')
+            'fields': ('title','short_body', 'body', 'speaker', 'preview')
         }),
         ('Дата и время', {
             'fields': ('created_at', 'updated_at'),

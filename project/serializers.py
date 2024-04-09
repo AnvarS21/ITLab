@@ -1,13 +1,6 @@
 from rest_framework import serializers
-
 from account.serializers import UserListSerializer, UserDetailSerializer, UserDeveloperList
 from project.models import Project, ProjectSImage, Developer
-
-
-class ProjectListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Project
-        fields = ('preview',)
 
 
 class DeveloperListSerializer(serializers.ModelSerializer):
@@ -18,7 +11,23 @@ class DeveloperListSerializer(serializers.ModelSerializer):
         fields = ("__all__")
 
 
+class ProjectListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = ('preview',)
+
+
 class DeveloperDetailSerializer(serializers.ModelSerializer):
+    developer = UserDetailSerializer(read_only=True)
+    projects = ProjectListSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Developer
+        fields = ('__all__')
+
+
+# Сериализатор для детальной информации о разработчике при просмотре проекта
+class DeveloperDetailForProjectSerializer(serializers.ModelSerializer):
     developer = UserDetailSerializer(read_only=True)
 
     class Meta:
@@ -34,12 +43,8 @@ class ProjectImagesSerializer(serializers.ModelSerializer):
 
 class ProjectDetailSerializer(serializers.ModelSerializer):
     images = ProjectImagesSerializer(many=True, read_only=True)
-    developers = DeveloperDetailSerializer(many=True, read_only=True)
+    developers = DeveloperDetailForProjectSerializer(many=True, read_only=True)
 
     class Meta:
         model = Project
         exclude = ('preview',)
-
-
-
-

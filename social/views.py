@@ -11,7 +11,6 @@ class NewsRetrieveListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, 
     queryset = News.objects.all()
     permission_classes = [AllowAny]
 
-
     def get_serializer_class(self):
         if self.action == 'list':
             return NewsListSerializer
