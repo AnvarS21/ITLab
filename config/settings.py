@@ -230,15 +230,9 @@ JAZZMIN_SETTINGS = {
 }
 
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:9000",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:8000"
-]
-
+CORS_ORIGIN_ALLOW_ALL = de_config('CORS_ORIGIN_ALLOW_ALL', cast=bool)
+CORS_ALLOWED_ORIGINS = [de_config('CORS_ALLOWED_ORIGINS')]
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_PRIVATE_NETWORK = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
