@@ -10,7 +10,7 @@ User = get_user_model()
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('image', 'full_name', 'position')
+        fields = ('id', 'image', 'full_name', 'position')
 
 
 class SocialLinkSerializer(serializers.ModelSerializer):
@@ -27,10 +27,16 @@ class SocialUserDetailSerializer(serializers.ModelSerializer):
         exclude = ('id', 'user')
 
 
-class UserUpdateSerializer(serializers.ModelSerializer):
+class UserStudentUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('image', 'full_name', 'about_me', 'position',)
+
+
+class UserClientUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('image', 'full_name', 'about_me', 'company',)
 
 
 class UserDetailSerializer(serializers.ModelSerializer):

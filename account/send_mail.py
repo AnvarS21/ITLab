@@ -6,15 +6,14 @@ from django_rest_passwordreset.signals import reset_password_token_created
 HOST = de_config('HOST')
 
 
-def send_confirmation_email(user, code):
-    link = f'http://{HOST}/account/activate/{code}'
+def send_confirmation_email(email, password):
     send_mail(
-        'Здравствуйте, активируйте ваш аккаунт!',
-        f'Что активировать ваш аккаунт нужно перейти по ссылке ниже:'
-        f'\n{link}'
-        f'\nСсылка работает один раз!',
+        f'Здравствуйте, ваша заявка была одобрена!',
+        f'Ваш логин и пароль следующие, сохраните пароль чтобы его не потерять!'
+        f'Можете войти по ссылке http://{HOST}/login/\n'
+        f'Логин: {email}\nПароль: {password}',
         de_config('EMAIL_USER'),
-        [user],
+        [email],
         fail_silently=False,
     )
 

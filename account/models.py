@@ -1,56 +1,46 @@
-import uuid
 
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from phonenumber_field.modelfields import PhoneNumberField
+
+from account.managers import UserManager
+
+BACKEND = 'backend'
+FRONTEND = 'frontend'
+PROJECT_MANAGER = 'project_manager'
+UI_UX_DESIGNER = 'ui_ui_designer'
+TESTER = 'tester'
+
+POSITION_CHOICES = [
+    (BACKEND, 'Backend'),
+    (FRONTEND, 'Frontend'),
+    (PROJECT_MANAGER, 'Project Manager'),
+    (UI_UX_DESIGNER, 'UI UX Designer'),
+    (TESTER, 'Tester')
+]
 
 class CustomUser(AbstractUser):
-    BACKEND = 'backend'
-    FRONTEND = 'frontend'
-    PROJECT_MANAGER = 'project_manager'
-    UI_UX_DESIGNER = 'ui_ui_designer'
-    TESTER = 'tester'
 
-    POSITION_CHOICES = [
-        (BACKEND, 'Backend'),
-        (FRONTEND, 'Frontend'),
-        (PROJECT_MANAGER, 'Project Manager'),
-        (UI_UX_DESIGNER, 'UI UX Designer'),
-        (TESTER, 'Tester')
+    ROLE_CHOICES = [
+        ('client', 'Клиент'),
+        ('student', 'Студент'),
     ]
-
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, blank=True, null=True, verbose_name="Тип аккаунта")
+    username = models.CharField(max_length=255, unique=False, blank=True, null=True)
     email = models.EmailField(_("email address"), unique=True)
-    full_name = models.CharField(max_length=128, verbose_name="ФИО",  blank=True, null=True)
-    position = models.CharField(max_length=20, choices=POSITION_CHOICES, verbose_name="Должность")
+    full_name = models.CharField(max_length=128, verbose_name="ФИО")
+    phone_number = PhoneNumberField('Номер телефона', help_text='Пример: +996700777777')
+    position = models.CharField(max_length=20, choices=POSITION_CHOICES, verbose_name="Позиция", blank=True, null=True)
+    company = models.CharField(max_length=50, choices=ROLE_CHOICES, verbose_name="Компания", blank=True, null=True)
     image = models.ImageField(upload_to='avatars/', verbose_name="Аватар", blank=True, null=True, default='avatars/default_avatar.jpg')
     about_me = models.TextField(blank=True, null=True, verbose_name="О себе")
-    activation_code = models.CharField(max_length=255, blank=True, null=True, verbose_name="Активационный код")
-    is_active = models.BooleanField(
-        _("active"),
-        default=False,
-        help_text=_(
-            "Designates whether this user should be treated as active. "
-            "Unselect this instead of deleting accounts."
-        ),
-    )
 
-    EMAIL_FIELD = "email"
+    objects = UserManager()
+
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
-
-    def create_activation_code(self):
-        code = str(uuid.uuid4())
-        return code
-
-    def save(self, *args, **kwargs):
-        self.activation_code = self.create_activation_code()
-        if self.is_superuser:
-            self.is_active = True
-        super().save(*args, **kwargs)
-
-
+    REQUIRED_FIELDS = ["full_name"]
 
 
     def __str__(self):

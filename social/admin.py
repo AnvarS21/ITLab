@@ -14,9 +14,9 @@ class NewsImageInline(admin.TabularInline):
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'speaker', 'created_at', 'updated_at', 'id')
-    search_fields = ('title', 'speaker', 'short_body')
-    list_filter = ('created_at', 'updated_at')
+    list_display = ('title', 'speaker', 'created_at', 'updated_at')
+    search_fields = ('title', 'speaker', 'short_body', 'body')
+    list_filter = ('created_at', 'updated_at', 'speaker')
     readonly_fields = ('created_at', 'updated_at')
     fieldsets = (
         (None, {
@@ -37,13 +37,21 @@ class NewsAdmin(admin.ModelAdmin):
 
 class AboutUsImagesInline(admin.TabularInline):
     model = AboutUsImages
+    verbose_name = "Изображение"
+    verbose_name_plural = "Изображения"
 
 
 @admin.register(AboutUs)
 class AboutUsAdmin(admin.ModelAdmin):
-    list_display = ('body',)
+    list_display = ('body_',)
     search_fields = ('body',)
     inlines = [AboutUsImagesInline]
+
+    def body_(self, obj):
+        return f'{obj.body[:70]}...' if obj.body else ''
+
+    body_.short_description = "Содержимое"
+
 
 
 

@@ -1,13 +1,19 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
 from django.shortcuts import render
 from rest_framework import mixins, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
+from account.send_mail import send_confirmation_email
+from account.utils import generate_unique_password
 from form.models import Review, Client, Student
 from form.serializers import ReviewCreateSerializer, ClientCreateSerializer, StudentCreateSerializer, \
     ReviewListSerializer
 
+
+User = get_user_model()
 
 class ReviewCreateListView(mixins.CreateModelMixin,mixins.ListModelMixin, GenericViewSet):
 
@@ -45,6 +51,9 @@ class ClientCreateView(mixins.CreateModelMixin, GenericViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientCreateSerializer
     permission_classes = [AllowAny]
+
+
+
 
 
 class StudentCreateView(mixins.CreateModelMixin, GenericViewSet):

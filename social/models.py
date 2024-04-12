@@ -17,11 +17,11 @@ class Gallery(models.Model):
 class News(models.Model):
     title = models.CharField(max_length=255, verbose_name="Заголовок")
     short_body = models.TextField(max_length=500, verbose_name="краткое описание")
-    body = models.TextField()
+    body = models.TextField(verbose_name='Содержимое')
     speaker = models.CharField(max_length=255, verbose_name="Спикер")
     preview = models.ForeignKey(Gallery, verbose_name="Превью", related_name='news', on_delete=models.SET_NULL, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата добавления")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
 
     def __str__(self):
         return self.title
@@ -58,7 +58,7 @@ class AboutUs(models.Model):
 
 class AboutUsImages(models.Model):
     about_us = models.ForeignKey(AboutUs, on_delete=models.CASCADE, related_name='images')
-    images = models.ImageField(upload_to='about_us/')
+    images = models.ImageField(upload_to='about_us/', verbose_name="Изображение")
 
     def __str__(self):
         return f"Images about us"

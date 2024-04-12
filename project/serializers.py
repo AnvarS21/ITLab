@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from account.serializers import UserListSerializer, UserDetailSerializer, UserDeveloperList
+from account.serializers import UserDetailSerializer, UserDeveloperList
 from project.models import Project, ProjectSImage, Developer
 
 
@@ -14,7 +14,7 @@ class DeveloperListSerializer(serializers.ModelSerializer):
 class ProjectListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ('preview',)
+        fields = ('id', 'preview',)
 
 
 class DeveloperDetailSerializer(serializers.ModelSerializer):
@@ -48,3 +48,5 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         exclude = ('preview',)
+
+

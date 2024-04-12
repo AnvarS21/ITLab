@@ -11,7 +11,6 @@ router.register(r'review', ReviewCreateListView, basename='review')
 
 
 urlpatterns = [
-
 ] + router.urls
 
 

@@ -11,16 +11,16 @@ class SocialLinksInline(admin.StackedInline):
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    list_display = ('email', 'username', 'position', 'is_staff')
-    list_filter = ('position', 'is_staff', 'is_superuser', 'is_active', 'groups')
-    search_fields = ('email', 'username', 'position')
-    ordering = ('email',)
+    list_display = ('full_name', 'email', 'position', 'role')
+    list_filter = ('position', 'role')
+    search_fields = ('email', 'full_name', 'position')
+    ordering = ('full_name',)
     filter_horizontal = ()
     inlines = [SocialLinksInline]
 
     fieldsets = (
-        (None, {'fields': ('email', 'username', 'password')}),
-        ('Персональная информация', {'fields': ('full_name', 'image', 'about_me', 'position')}),
+        (None, {'fields': ('email', 'password')}),
+        ('Персональная информация', {'fields': ('full_name', 'image', 'about_me', 'position', 'role')}),
         ('Разрешения', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Даты', {'fields': ('last_login', 'date_joined')}),
     )
@@ -28,10 +28,14 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'username', 'password1', 'password2'),
+            'fields': ('email', 'password1', 'password2'),
         }),
     )
 
 
+
+
+
 admin.site.unregister(CustomUser)
+
 admin.site.register(CustomUser, CustomUserAdmin)

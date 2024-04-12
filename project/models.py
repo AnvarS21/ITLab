@@ -6,7 +6,7 @@ User = get_user_model()
 
 
 class Developer(models.Model):
-    developer = models.OneToOneField(User, on_delete=models.CASCADE)
+    developer = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Разработчик")
 
     def __str__(self):
         return self.developer.email
@@ -21,7 +21,7 @@ class Project(models.Model):
     description = models.TextField(verbose_name="Описание")
     preview = models.ImageField(upload_to='preview_projects/', verbose_name="Изображение", blank=True, null=True)
     link_to_project = models.URLField(verbose_name="Ссылка")
-    developers = models.ManyToManyField(Developer, related_name='projects')
+    developers = models.ManyToManyField(Developer, related_name='projects', verbose_name="Разработчики")
 
     def __str__(self):
         return self.title
