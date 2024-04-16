@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, SocialLinks
-
+from django_rest_passwordreset.models import ResetPasswordToken
 
 class SocialLinksInline(admin.StackedInline):
     model = SocialLinks
@@ -34,8 +34,12 @@ class CustomUserAdmin(UserAdmin):
 
 
 
-
+admin.site.unregister(ResetPasswordToken)
 
 admin.site.unregister(CustomUser)
 
 admin.site.register(CustomUser, CustomUserAdmin)
+
+
+
+

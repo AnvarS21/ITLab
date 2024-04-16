@@ -9,13 +9,14 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-import contextlib
 from datetime import timedelta
 from pathlib import Path
+
+
 from decouple import config as de_config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -28,7 +29,6 @@ DEBUG = de_config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = de_config('ALLOWED_HOSTS').split()
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #installed_apps
+    # installed_apps
     "corsheaders",
     'phonenumbers',
     'rest_framework',
@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'phonenumber_field',
     'django_rest_passwordreset',
-    #my_apps
+    # my_apps
     'account',
     'form',
     'project',
@@ -85,7 +85,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -97,10 +96,19 @@ DATABASES = {
          'PASSWORD': de_config('DB_PASSWORD'),
          'HOST': de_config('DB_HOST'),
          'PORT': de_config('DB_PORT'),
-    }
- }
+     }
+}
 
 
+
+# Maximum size for all file uploads
+DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440
+
+# Maximum size for one file
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440
+
+# Maximum size for one file
+FILE_UPLOAD_TEMP_DIR_MAX = 2621440
 
 
 # Password validation
@@ -121,7 +129,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -133,7 +140,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
@@ -141,7 +147,6 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
 
 PHONENUMBER_DEFAULT_REGION = 'KG'
 AUTH_USER_MODEL = 'account.CustomUser'
@@ -151,7 +156,6 @@ AUTH_USER_MODEL = 'account.CustomUser'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -160,7 +164,6 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
-
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
@@ -195,7 +198,6 @@ SIMPLE_JWT = {
     "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
 }
 
-
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Token': {
@@ -207,20 +209,48 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,
 }
 
-
 JAZZMIN_SETTINGS = {
     "site_title": "ITLab",
     "site_header": "ITLab",
-    # "site_logo": "/static/admin/img/logo.png",
-    # "welcome_sign": "Добро пожаловать в административную панель Django",
-    # "show_ui_builder": True,
-    # "changeform_format": "horizontal_tabs",
-    # "related_modal_active": True,
-    # "show_sidebar": True,
-    # "navigation_expanded": False,
-    # "searchbar_placeholder": "Поиск...",
-    # "searchbar_model_name": "Поиск по моделям...",
-    # "searchbar_model_field_name": "Поиск по полям...",
+    "site_brand": "ITLab",
+    "site_logo": "logo.jpg",
+    "site_logo_classes": "img-square",
+    "user_avatar": None,
+    "search_model": ["auth.User", "auth.Group"],
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True}
+    ],
+    "usermenu_links": [
+        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True}
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
+    "custom_links": {
+        "books": [{
+            "name": "Make Messages",
+            "url": "make_messages",
+            "icon": "fas fa-comments",
+            "permissions": ["books.view_book"]
+        }]
+    },
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+    "related_modal_active": False,
+    "custom_css": None,
+    "custom_js": None,
+    "use_google_fonts_cdn": True,
+    "show_ui_builder": False,
+    "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
 }
 
 
